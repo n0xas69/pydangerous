@@ -1,5 +1,7 @@
 import os
 import glob
+import json
+import time
 
 
 log_path = os.environ["USERPROFILE"]+"\\Saved Games\\Frontier Developments\\Elite Dangerous"
@@ -11,20 +13,39 @@ latest_file = max(list_of_files, key=os.path.getctime)
 print(latest_file)
 
 
-# On cherche le dernier saut FSD, si il est égal au précédent, alors le joueur n'a pas changé de système
 def get_fsd_jump():
     last_jump = ""
-    previous_jump = ""
 
     with open(latest_file, "r") as f:
-        line = f.readline()
+        line = reversed(f.readline())
         for l in line:
             if "FSDJump" in l:
                 last_jump = line
 
-    if not last_jump == previous_jump:
-        if not last_jump == "":
-            # Saut FSD détecté
-            pass
+    if not last_jump == "":
+        get_system(last_jump)
 
-    previous_jump = last_jump
+
+def get_system(jump):
+    x = json.load(jump)
+    system = x["StarSystem"]
+
+
+def get_trade_raw():
+    station = ""
+    system = ""
+
+
+def get_trade_manu():
+    station = ""
+    system = ""
+
+
+def get_trade_data():
+    station = ""
+    system = ""
+
+
+while True:
+    time.sleep(2)
+    get_fsd_jump()
