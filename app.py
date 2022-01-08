@@ -1,16 +1,22 @@
 import os
-import glob
+import sys
 import json
 import time
+import requests
+from bs4 import BeautifulSoup
 
-
-log_path = os.environ["USERPROFILE"]+"\\Saved Games\\Frontier Developments\\Elite Dangerous"
-
+if sys.platform == "windows":
+    log_path = os.environ["USERPROFILE"]+"\\Saved Games\\Frontier Developments\\Elite Dangerous"
+else:
+    log_path = "/var/log"
 
 # On trouve le dernier fichier de log
-list_of_files = glob.glob(log_path+"/*.log")
+list_of_files = []
+for file in os.listdir(log_path):
+    if file.endswith(".log"):
+        list_of_files.append(os.path.join(log_path, file))
+print(list_of_files)
 latest_file = max(list_of_files, key=os.path.getctime)
-print(latest_file)
 
 
 def get_fsd_jump():
@@ -29,11 +35,17 @@ def get_fsd_jump():
 def get_system(jump):
     x = json.load(jump)
     system = x["StarSystem"]
+    get_trade_raw("maia")
 
 
-def get_trade_raw():
+def get_trade_raw(position):
     station = ""
     system = ""
+    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{position}/economy/3/service/71/sortBy/distanceCMDR"
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, "html.parser")
+    for table in soup.findAll("tr"):
+        print(table.td[2].a.text)
 
 
 def get_trade_manu():
@@ -49,3 +61,4 @@ def get_trade_data():
 while True:
     time.sleep(2)
     get_fsd_jump()
+
