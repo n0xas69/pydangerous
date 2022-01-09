@@ -28,11 +28,10 @@ def get_last_fsd_jump():
             if "FSDJump" in l:
                 last_jump = l
 
-    if not last_jump == None:
+    if last_jump is not None:
         x = json.loads(last_jump)
         system = x["StarSystem"]
         return system
-
 
 
 def get_trade_raw():
@@ -45,7 +44,7 @@ def get_trade_raw():
     for table in soup.findAll("tr"):
         if "pur" in table.getText():
             for td in soup.findAll("td"):
-                if not td.strong == None:
+                if td.strong is not None:
                     station = td.strong.getText()
                     system = td.small.getText()
                     break
@@ -64,7 +63,7 @@ def get_trade_manu():
     for table in soup.findAll("tr"):
         if "Manufacturé" in table.getText():
             for td in soup.findAll("td"):
-                if not td.strong == None:
+                if td.strong is not None:
                     station = td.strong.getText()
                     system = td.small.getText()
                     break
@@ -83,7 +82,7 @@ def get_trade_data():
     for table in soup.findAll("tr"):
         if "Encodé" in table.getText():
             for td in soup.findAll("td"):
-                if not td.strong == None:
+                if td.strong is not None:
                     station = td.strong.getText()
                     system = td.small.getText()
                     break
