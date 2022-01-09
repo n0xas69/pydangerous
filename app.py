@@ -29,21 +29,21 @@ def get_fsd_jump():
                 last_jump = l
 
     if not last_jump == "":
-        get_system(last_jump)
+        return last_jump
 
 
-def get_system(jump):
+def get_system():
+    jump = get_fsd_jump()
     x = json.loads(jump)
     system = x["StarSystem"]
-    get_trade_raw(system)
-    get_trade_manu(system)
-    get_trade_data(system)
+    return system
 
 
-def get_trade_raw(position):
+def get_trade_raw():
+    cmdr_position = get_system()
     station = ""
     system = ""
-    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{position}/economy/3/service/71/sortBy/distanceCMDR"
+    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/3/service/71/sortBy/distanceCMDR"
     page = requests.get(url)
     soup = BeautifulSoup(page.text, "html.parser")
     for table in soup.findAll("tr"):
@@ -55,13 +55,14 @@ def get_trade_raw(position):
                     break
 
     print(f"Système : {system} | Station : {station}")
+    return station, system
 
 
-
-def get_trade_manu(position):
+def get_trade_manu():
+    cmdr_position = get_system()
     station = ""
     system = ""
-    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{position}/economy/5/service/71/sortBy/distanceCMDR"
+    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/5/service/71/sortBy/distanceCMDR"
     page = requests.get(url)
     soup = BeautifulSoup(page.text, "html.parser")
     for table in soup.findAll("tr"):
@@ -73,12 +74,14 @@ def get_trade_manu(position):
                     break
 
     print(f"Système : {system} | Station : {station}")
+    return station, system
 
 
-def get_trade_data(position):
+def get_trade_data():
+    cmdr_position = get_system()
     station = ""
     system = ""
-    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{position}/economy/4/service/71/sortBy/distanceCMDR"
+    url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/4/service/71/sortBy/distanceCMDR"
     page = requests.get(url)
     soup = BeautifulSoup(page.text, "html.parser")
     for table in soup.findAll("tr"):
@@ -90,9 +93,12 @@ def get_trade_data(position):
                     break
 
     print(f"Système : {system} | Station : {station}")
+    return station, system
 
 
 while True:
     time.sleep(3)
-    get_fsd_jump()
+    get_trade_data()
+    get_trade_manu()
+    get_trade_raw()
 
