@@ -19,7 +19,7 @@ for file in os.listdir(log_path):
 latest_file = max(list_of_files, key=os.path.getctime)
 
 
-def get_fsd_jump():
+def get_last_fsd_jump():
     last_jump = ""
 
     with open(latest_file, "r") as f:
@@ -28,19 +28,15 @@ def get_fsd_jump():
             if "FSDJump" in l:
                 last_jump = l
 
-    if not last_jump == "":
-        return last_jump
+    if not last_jump == None:
+        x = json.loads(last_jump)
+        system = x["StarSystem"]
+        return system
 
-
-def get_system():
-    jump = get_fsd_jump()
-    x = json.loads(jump)
-    system = x["StarSystem"]
-    return system
 
 
 def get_trade_raw():
-    cmdr_position = get_system()
+    cmdr_position = get_last_fsd_jump()
     station = ""
     system = ""
     url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/3/service/71/sortBy/distanceCMDR"
@@ -59,7 +55,7 @@ def get_trade_raw():
 
 
 def get_trade_manu():
-    cmdr_position = get_system()
+    cmdr_position = get_last_fsd_jump()
     station = ""
     system = ""
     url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/5/service/71/sortBy/distanceCMDR"
@@ -78,7 +74,7 @@ def get_trade_manu():
 
 
 def get_trade_data():
-    cmdr_position = get_system()
+    cmdr_position = get_last_fsd_jump()
     station = ""
     system = ""
     url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/4/service/71/sortBy/distanceCMDR"
