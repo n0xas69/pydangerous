@@ -35,7 +35,8 @@ def get_last_fsd_jump():
 
 
 def get_trade_raw():
-    cmdr_position = get_last_fsd_jump()
+    #cmdr_position = get_last_fsd_jump()
+    cmdr_position = "maia"
     station = ""
     system = ""
     url = f"https://www.edsm.net/fr/search/stations/index/cmdrPosition/{cmdr_position}/economy/3/service/71/sortBy/distanceCMDR"
@@ -89,11 +90,4 @@ def get_trade_data():
 
     print(f"Système : {system} | Station : {station}")
     return station, system
-
-
-while True:
-    time.sleep(3)
-    get_trade_data()
-    get_trade_manu()
-    get_trade_raw()
 
