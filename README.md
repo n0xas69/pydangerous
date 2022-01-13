@@ -26,12 +26,18 @@ py app.py
 
 ## Installation et utilisation sous linux
 ```
-sudo apt-get install python3
+sudo apt install python3
 sudo apt install python3-pip
 git clone https://gitlab.com/noxas69/pydangerous.git
 cd pydangerous
 pip3 install -r requirements.txt
 python3 app.py
+```
+
+Penser à modifier la variable "LOG_PATH" dans le fichier app.py pour indique le répertoire ou se situe les log du jeu (sous la forme Journal.220109133308.01.log).
+Si vous ne savez pas ou ils sont stocker, taper cette commande pour les localiser :
+```
+find / -name "Journal*.log" -type f
 ```
 
 
