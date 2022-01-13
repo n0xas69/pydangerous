@@ -101,11 +101,17 @@ def get_trade_data(cmdr_position):
 def get_interest_body(cmdr_position):
     earthlike_list = []
     amoniac_list = []
-    rich_metal = []
+    metal_rich = []
     params = {"systemName" : cmdr_position}
 
     r = requests.get("https://www.edsm.net/api-system-v1/bodies", params=params)
-    print(r.json())
+    data = r.json()
+    for p in data["bodies"]:
+        if p["subType"] == "Metal-rich body":
+            metal_rich.append(p["name"])
+    
+    print(metal_rich)
+   
 
 
 
