@@ -21,9 +21,8 @@ Ouvrez un terminal et taper les commandes suivantes :
 git clone https://gitlab.com/noxas69/pydangerous.git
 cd pydangerous
 pip install -r requirements.txt
-py app.py
-
-#linux
-python3 app.py
+python app.py
 ```
+
+
 
