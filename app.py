@@ -97,6 +97,18 @@ def get_trade_data(cmdr_position):
     return station, system
 
 
+
+def get_interest_body(cmdr_position):
+    earthlike_list = []
+    amoniac_list = []
+    rich_metal = []
+    params = {"systemName" : cmdr_position}
+
+    r = requests.get("https://www.edsm.net/api-system-v1/bodies", params=params)
+    print(r.json())
+
+
+
 def clear():
     if os.name == 'nt':
         _ = os.system('cls')
@@ -112,6 +124,7 @@ def get_information():
     return trade_raw, trade_manu, trade_data
 
 
+
 while True:
     clear()
     informations = get_information()
@@ -119,3 +132,5 @@ while True:
     print(f"Trader Brut     ---->   Station : {informations[0][0]} | Système :  {informations[0][1]} \n"
           f"Trader Fabriqué ---->   Station : {informations[2][0]} | Système :  {informations[2][1]} \n"
           f"Trader Data     ---->   Station : {informations[1][0]} | Système :  {informations[1][1]}")
+
+
