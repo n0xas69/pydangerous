@@ -4,13 +4,14 @@
 
 ## Infos
 
-Script en console qui affiche en temps réel les traders les plus proche par type de matériaux. Très utile sur le second écran. D'autre fonctionnalitées sont à venir. Création d'une GUI à venir.
+Script en console qui affiche en temps réel les traders les plus proche par type de matériaux et les planète du système qui rapporte le plus en exploration
 
 ## Prérequis
 
 - Python > 3.5
 - beautifulsoup
 - requests
+- tabulate
 
 ## Install
 
