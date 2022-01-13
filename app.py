@@ -99,18 +99,32 @@ def get_trade_data(cmdr_position):
 
 
 def get_interest_body(cmdr_position):
-    earthlike_list = []
-    amoniac_list = []
-    metal_rich = []
+    earth_like = []
+    teraform_rocky_body = []
+    teraform_hmetal_world = []
+    teraform_water_world = []
+    water_world = []
+    ammonia_world = []
     params = {"systemName" : cmdr_position}
 
     r = requests.get("https://www.edsm.net/api-system-v1/bodies", params=params)
     data = r.json()
     for p in data["bodies"]:
-        if p["subType"] == "Metal-rich body":
-            metal_rich.append(p["name"])
+        if p["subType"] == "High metal content world" and p["terraformingState"] == "Candidate for terraforming":
+            teraform_hmetal_world.append(p["name"])
+        elif p["subType"] == "Water world" and p["terraformingState"] == "Candidate for terraforming":
+            teraform_water_world.append(p["name"])
+        elif p["subType"] == "Rocky body" and p["terraformingState"] == "Candidate for terraforming":
+            teraform_rocky_body.append(p["name"])
+        elif p["subType"] == "Earth-like world" and p["terraformingState"] == "Candidate for terraforming":
+            earth_like.append(p["name"])
+        elif p["subType"] == "Water world":
+            water_world.append(p["name"])
+        elif p["subType"] == "Ammonia world":
+            ammonia_world.append(p["name"])
+            
     
-    print(metal_rich)
+    return earth_like, teraform_hmetal_world, teraform_rocky_body, teraform_water_world, water_world, ammonia_world
    
 
 
@@ -124,6 +138,7 @@ def clear():
 
 def get_information():
     cmdr_position = get_last_fsd_jump()
+    #interest_body = get_interest_body(cmdr_position)
     trade_raw = get_trade_raw(cmdr_position)
     trade_manu = get_trade_manu(cmdr_position)
     trade_data = get_trade_data(cmdr_position)
