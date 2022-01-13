@@ -3,6 +3,7 @@ import sys
 import json
 import requests
 import time
+from tabulate import tabulate
 from bs4 import BeautifulSoup
 
 # Le chemin par défaut du journal est déjà dans le code, vous pouvez le changer en renseignant cette variable
@@ -24,7 +25,7 @@ try:
             list_of_files.append(os.path.join(log_path, file))
     latest_file = max(list_of_files, key=os.path.getctime)
 except Exception as e:
-    print("Impossible de trouver les fichiers journaux.")
+    print("ERREUR : Impossible de trouver les fichiers journaux.")
 
 
 def get_last_fsd_jump():
@@ -43,7 +44,7 @@ def get_last_fsd_jump():
             return system
 
     except Exception as e:
-        print("Impossible d'ouvrir le fichier journal du jeu.")
+        print("ERREUR : Impossible d'ouvrir le fichier journal du jeu.")
 
 
 def get_trade_raw(cmdr_position):
@@ -128,7 +129,6 @@ def get_interest_body(cmdr_position):
    
 
 
-
 def clear():
     if os.name == 'nt':
         _ = os.system('cls')
@@ -138,20 +138,38 @@ def clear():
 
 def get_information():
     cmdr_position = get_last_fsd_jump()
-    #interest_body = get_interest_body(cmdr_position)
-    trade_raw = get_trade_raw(cmdr_position)
-    trade_manu = get_trade_manu(cmdr_position)
-    trade_data = get_trade_data(cmdr_position)
-    return trade_raw, trade_manu, trade_data
+    if cmdr_position is None:
+        print("ERREUR : Impossible de localiser le joueur")
+        return False
+    else:
+        interest_body = get_interest_body(cmdr_position)
+        trade_raw = get_trade_raw(cmdr_position)
+        trade_manu = get_trade_manu(cmdr_position)
+        trade_data = get_trade_data(cmdr_position)
+        return trade_raw, trade_manu, trade_data, interest_body
 
 
-
+clear()
 while True:
-    clear()
     informations = get_information()
-    time.sleep(2)
-    print(f"Trader Brut     ---->   Station : {informations[0][0]} | Système :  {informations[0][1]} \n"
-          f"Trader Fabriqué ---->   Station : {informations[2][0]} | Système :  {informations[2][1]} \n"
-          f"Trader Data     ---->   Station : {informations[1][0]} | Système :  {informations[1][1]}")
-
-
+    if informations:
+        time.sleep(2)
+        clear()
+        table = [["Brut", informations[0][0], informations[0][1]], ["Fabriqué", informations[2][0],informations[2][1]], ["Encodé", informations[1][0], informations[1][1]]]
+        headers = ["Type de matériaux", "Système", "Station"]
+        table_body = [
+            ["Abondant en métaux terraformable", informations[3][1]],
+            ["Earth-like", informations[3][0]],
+            ["Planète rocheuse terraformable", informations[3][2]],
+            ["Monde aquatique terraformable", informations[3][3]],
+            ["Monde ammoniac", informations[3][5]],
+            ["Monde aquatique", informations[3][4]],
+            ]
+        headers_body = ["Type planète", "Nom"]
+        print("Trader les plus proches : ")
+        print(tabulate(table, headers, tablefmt="grid")+"\n")
+        print("Point d'intérêt d'exploration : ")
+        print(tabulate(table_body, headers_body, tablefmt="grid")+"\n")
+    else:
+        break
+    
