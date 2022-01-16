@@ -155,7 +155,7 @@ while True:
     if informations:
         time.sleep(2)
         clear()
-        table = [["Brut", informations[0][0], informations[0][1]], ["Fabriqué", informations[2][0],informations[2][1]], ["Encodé", informations[1][0], informations[1][1]]]
+        table = [["Brut", informations[0][1], informations[0][0]], ["Fabriqué", informations[1][1],informations[1][0]], ["Encodé", informations[2][1], informations[2][0]]]
         headers = ["Type de matériaux", "Système", "Station"]
         table_body = [
             ["Abondant en métaux terraformable", informations[3][1]],
