@@ -15,7 +15,7 @@ Script en console qui affiche en temps réel les traders les plus proche par typ
 
 ## Installation et utilisation sous windows
 
-Si vous ne voulez rien installer, j'ai créé un .exe que vous aurez juste à lancer, vous pouvez le télécharger ici : https://cloud.noxas.fr/f/52d3cbe91b8149d8833f/
+Si vous ne voulez rien installer, j'ai créé un .exe que vous aurez juste à lancer, vous pouvez le télécharger ici : https://cloud.noxas.fr/d/96340b238c8b4d00a0cd/
 attention, il s'agit d'un script python converti en .exe, il faudra dire à votre antivirus de faire confiance au fichier. Sinon pour lancer directement le script :
 
 Installer python avec pip : https://www.python.org/downloads/ (bien cocher ADD PATH et dans avancé vérifier que tout soit coché également)
